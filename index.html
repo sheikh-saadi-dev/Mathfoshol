@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>মাঠ ফসল — অর্গানিক বীজ স্টোর</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Hind+Siliguri:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap');
+
+  :root{
+    --forest:#1F3B2C;
+    --forest-dark:#0E2016;
+    --sand:#E3EEDA;
+    --sprout:#6E9F4C;
+    --gold:#87A24A;
+    --clay:#33553A;
+    --paper:#F6FAF2;
+    --ink:#1C271D;
+    --line: rgba(31,59,44,0.15);
+    --radius: 14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--sand);
+    color:var(--ink);
+    font-family:'Hind Siliguri','Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:40px;
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces','Hind Siliguri',serif;
+    letter-spacing:-0.01em;
+  }
+  .mono{font-family:'JetBrains Mono',monospace;}
+  a{text-decoration:none;color:inherit;}
+  button{font-family:inherit;cursor:pointer;border:none;}
+
+  /* ---------- HEADER ---------- */
+  header{
+    position:sticky;top:0;z-index:40;
+    background:var(--forest);
+    color:var(--paper);
+    padding:12px 16px;
+    display:flex;align-items:center;justify-content:space-between;
+    box-shadow:0 2px 10px rgba(0,0,0,0.15);
+  }
+  .logo{
+    font-family:'Fraunces',serif;
+    font-weight:700;
+    font-size:1.25rem;
+    display:flex;align-items:center;gap:8px;
+  }
+  .logo .seed-dot{
+    width:10px;height:10px;border-radius:50%;
+    background:var(--sprout);
+    box-shadow:0 0 0 3px rgba(110,159,76,0.25);
+  }
+  .header-actions{display:flex;align-items:center;gap:10px;}
+  .icon-btn{
+    position:relative;
+    background:rgba(255,255,255,0.08);
+    color:var(--paper);
+    width:40px;height:40px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.1rem;
+  }
+  .badge{
+    position:absolute;top:-4px;right:-4px;
+    background:var(--gold);color:var(--forest-dark);
+    font-size:0.65rem;font-weight:700;
+    min-width:18px;height:18px;border-radius:9px;
+    display:flex;align-items:center;justify-content:center;
+    padding:0 4px;
+  }
+  .buy-now-top{
+    background:var(--gold);
+    color:var(--forest-dark);
+    font-weight:700;
+    padding:9px 16px;
+    border-radius:99px;
+    font-size:0.9rem;
+    white-space:nowrap;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:36px 20px 28px;
+    text-align:center;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(110,159,76,0.22), transparent 40%),
+      radial-gradient(circle at 80% 0%, rgba(51,85,58,0.15), transparent 45%),
+      var(--sand);
+  }
+  .hero .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.72rem;
+    letter-spacing:0.12em;
+    color:var(--forest);
+    background:rgba(110,159,76,0.15);
+    display:inline-block;
+    padding:5px 12px;border-radius:99px;
+    margin-bottom:14px;
+  }
+  .hero h1{
+    font-size:1.9rem;
+    color:var(--forest-dark);
+    margin:0 0 10px;
+    line-height:1.25;
+  }
+  .hero p{
+    color:#555;
+    font-size:0.95rem;
+    max-width:420px;
+    margin:0 auto;
+  }
+
+  /* ---------- PRODUCT GRID ---------- */
+  .section-title{
+    padding:22px 20px 10px;
+    font-size:1.1rem;
+    color:var(--forest-dark);
+    display:flex;align-items:baseline;gap:8px;
+  }
+  .section-title span.count{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.75rem;
+    color:var(--sprout);
+  }
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+    padding:0 16px 20px;
+  }
+  @media(min-width:640px){
+    .grid{grid-template-columns:repeat(3,1fr);}
+  }
+
+  .packet{
+    background:var(--paper);
+    border-radius:var(--radius);
+    border:1px solid var(--line);
+    overflow:hidden;
+    position:relative;
+    display:flex;flex-direction:column;
+    transition:transform 0.15s ease;
+  }
+  .packet:active{transform:scale(0.98);}
+  .packet-media{
+    aspect-ratio:1/1;
+    background:linear-gradient(160deg, var(--forest) 0%, var(--forest-dark) 100%);
+    display:flex;align-items:center;justify-content:center;
+    font-size:2.6rem;
+    position:relative;
+    cursor:pointer;
+  }
+  .packet-media::after{
+    content:'';
+    position:absolute;left:0;right:0;bottom:0;
+    height:14px;
+    background:repeating-linear-gradient(90deg, var(--paper) 0 6px, transparent 6px 12px);
+    opacity:0.9;
+  }
+  .fav-btn{
+    position:absolute;top:8px;right:8px;
+    background:rgba(0,0,0,0.35);
+    color:#fff;
+    width:30px;height:30px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:0.95rem;
+    z-index:2;
+  }
+  .fav-btn.active{color:var(--clay);background:rgba(255,255,255,0.85);}
+  .packet-body{padding:10px 12px 12px;cursor:pointer;flex:1;}
+  .packet-body h3{
+    font-size:0.92rem;margin:0 0 4px;color:var(--ink);
+    font-family:'Hind Siliguri',sans-serif;font-weight:600;
+  }
+  .packet-body .price{
+    font-family:'JetBrains Mono',monospace;
+    color:var(--forest);
+    font-weight:600;
+    font-size:0.88rem;
+  }
+  .packet-footer{
+    padding:0 12px 12px;
+  }
+  .add-btn{
+    width:100%;
+    background:var(--forest);
+    color:var(--paper);
+    padding:9px 0;
+    border-radius:8px;
+    font-size:0.82rem;
+    font-weight:600;
+  }
+  .add-btn.added{background:var(--sprout);}
+
+  /* ---------- PRODUCT MODAL ---------- */
+  .overlay{
+    position:fixed;inset:0;
+    background:rgba(14,32,22,0.6);
+    backdrop-filter:blur(3px);
+    z-index:60;
+    display:none;
+    align-items:flex-end;
+    justify-content:center;
+    opacity:0;
+    transition:opacity 0.28s ease;
+  }
+  .overlay.open{display:flex;opacity:1;}
+  .sheet{
+    background:var(--paper);
+    width:100%;max-width:520px;
+    border-radius:24px 24px 0 0;
+    max-height:92vh;
+    overflow-y:auto;
+    animation:slideUp 0.38s cubic-bezier(0.22,1,0.36,1);
+    box-shadow:0 -12px 40px rgba(14,32,22,0.25);
+  }
+  @keyframes slideUp{from{transform:translateY(48px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+  @media(min-width:640px){
+    .overlay{align-items:center;}
+    .sheet{border-radius:24px;max-height:85vh;}
+    @keyframes slideUp{from{transform:translateY(24px) scale(0.97);opacity:0;}to{transform:translateY(0) scale(1);opacity:1;}}
+  }
+  .sheet-handle{
+    width:40px;height:4px;background:var(--line);
+    border-radius:2px;margin:10px auto;
+  }
+  .close-sheet{
+    position:absolute;top:14px;right:16px;
+    background:rgba(31,59,44,0.08);
+    width:32px;height:32px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.1rem;color:var(--forest-dark);
+  }
+
+  /* product detail */
+  .detail-media{
+    background:
+      radial-gradient(circle at 30% 20%, rgba(110,159,76,0.35), transparent 55%),
+      linear-gradient(160deg, var(--forest) 0%, var(--forest-dark) 100%);
+    display:flex;align-items:center;justify-content:center;
+    font-size:6.5rem;height:300px;position:relative;
+    border-radius:24px 24px 0 0;
+  }
+  .detail-media::after{
+    content:'';
+    position:absolute;left:0;right:0;bottom:0;
+    height:18px;
+    background:repeating-linear-gradient(90deg, var(--paper) 0 7px, transparent 7px 14px);
+    opacity:0.9;
+  }
+  .detail-body{padding:26px 26px 28px;}
+  .detail-body h2{margin:0 0 8px;font-size:1.55rem;color:var(--forest-dark);line-height:1.3;}
+  .detail-body .price{
+    font-family:'JetBrains Mono',monospace;
+    color:var(--forest);font-weight:700;font-size:1.3rem;margin-bottom:16px;
+  }
+  .detail-body .desc{color:#556155;font-size:0.95rem;line-height:1.75;margin-bottom:24px;}
+  .qty-row{
+    display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:22px;
+    background:var(--sand);border-radius:14px;padding:12px 16px;
+  }
+  .qty-row .label{font-size:0.88rem;color:var(--forest-dark);font-weight:600;}
+  .qty-control{
+    display:flex;align-items:center;
+    border:1px solid var(--line);border-radius:99px;overflow:hidden;
+    background:var(--paper);
+  }
+  .qty-control button{
+    width:38px;height:38px;background:var(--paper);font-size:1.1rem;color:var(--forest-dark);
+    transition:background 0.15s ease;
+  }
+  .qty-control button:active{background:var(--sand);}
+  .qty-control span{width:38px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:0.95rem;}
+  .detail-actions{display:flex;gap:12px;}
+  .detail-actions .add-btn{flex:1;padding:15px 0;font-size:0.98rem;border-radius:12px;}
+  .detail-actions .fav-inline{
+    width:54px;height:54px;border-radius:50%;
+    background:var(--sand);color:var(--clay);font-size:1.3rem;
+    display:flex;align-items:center;justify-content:center;
+    border:1px solid var(--line);
+    transition:transform 0.15s ease, background 0.15s ease;
+  }
+  .detail-actions .fav-inline:active{transform:scale(0.92);}
+  .detail-actions .fav-inline.active{background:var(--clay);color:#fff;}
+
+  /* ---------- CART DRAWER ---------- */
+  .cart-overlay{
+    position:fixed;inset:0;background:rgba(18,38,26,0.55);
+    z-index:70;display:none;
+  }
+  .cart-overlay.open{display:block;}
+  .cart-drawer{
+    position:fixed;top:0;right:0;bottom:0;
+    width:100%;max-width:400px;
+    background:var(--paper);
+    z-index:71;
+    display:flex;flex-direction:column;
+    transform:translateX(100%);
+    transition:transform 0.25s ease;
+  }
+  .cart-drawer.open{transform:translateX(0);}
+  .cart-head{
+    padding:16px 18px;border-bottom:1px solid var(--line);
+    display:flex;align-items:center;justify-content:space-between;
+    background:var(--forest);color:var(--paper);
+  }
+  .cart-head h3{margin:0;font-size:1.05rem;}
+  .cart-items{flex:1;overflow-y:auto;padding:12px 16px;}
+  .cart-item{
+    display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);
+  }
+  .cart-item .thumb{
+    width:52px;height:52px;border-radius:10px;
+    background:linear-gradient(160deg, var(--forest), var(--forest-dark));
+    display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;
+  }
+  .cart-item .info{flex:1;}
+  .cart-item .info h4{margin:0 0 2px;font-size:0.85rem;}
+  .cart-item .info .mono{font-size:0.78rem;color:var(--forest);}
+  .cart-item .qty-control button{width:26px;height:26px;font-size:0.85rem;}
+  .cart-item .qty-control span{width:26px;font-size:0.78rem;}
+  .cart-item .remove{
+    background:none;color:var(--clay);font-size:0.75rem;text-decoration:underline;padding:0;margin-top:4px;
+  }
+  .fav-item-actions{display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
+  .fav-add-btn{
+    background:var(--forest);color:var(--paper);
+    font-size:0.75rem;font-weight:600;
+    padding:6px 12px;border-radius:99px;white-space:nowrap;
+  }
+  .fav-add-btn.added{background:var(--sprout);}
+  .fav-remove{background:none;color:var(--clay);font-size:0.73rem;text-decoration:underline;padding:0;}
+  .cart-empty{
+    text-align:center;color:#888;padding:40px 20px;font-size:0.9rem;
+  }
+  .cart-footer{
+    padding:16px 18px 20px;border-top:1px solid var(--line);
+    background:var(--sand);
+  }
+  .cart-total-row{
+    display:flex;justify-content:space-between;margin-bottom:12px;
+    font-size:0.95rem;font-weight:600;
+  }
+  .cart-total-row .mono{color:var(--forest);}
+  .checkout-btn{
+    width:100%;background:var(--gold);color:var(--forest-dark);
+    padding:13px 0;border-radius:10px;font-weight:700;font-size:0.95rem;
+  }
+
+  /* ---------- CHECKOUT FORM ---------- */
+  .checkout-form{padding:20px;}
+  .checkout-form h2{margin:6px 0 16px;font-size:1.2rem;color:var(--forest-dark);}
+  .field{margin-bottom:12px;}
+  .field label{display:block;font-size:0.82rem;color:#555;margin-bottom:5px;}
+  .field input, .field textarea{
+    width:100%;padding:10px 12px;border-radius:8px;
+    border:1px solid var(--line);background:#fff;
+    font-family:'Hind Siliguri',sans-serif;font-size:0.9rem;
+  }
+  .field textarea{resize:vertical;min-height:64px;}
+  .order-summary{
+    background:var(--sand);border-radius:10px;padding:12px 14px;margin-bottom:14px;
+    font-size:0.85rem;
+  }
+  .order-summary .row{display:flex;justify-content:space-between;padding:3px 0;}
+  .submit-order{
+    width:100%;background:var(--forest);color:var(--paper);
+    padding:13px 0;border-radius:10px;font-weight:700;font-size:0.95rem;
+  }
+  .submit-order:disabled{opacity:0.6;}
+  .form-note{font-size:0.75rem;color:#888;text-align:center;margin-top:8px;}
+  .success-box{
+    text-align:center;padding:30px 20px;
+  }
+  .success-box .icon{font-size:2.8rem;margin-bottom:10px;}
+  .success-box h3{color:var(--forest-dark);margin:0 0 8px;}
+  .success-box p{color:#666;font-size:0.88rem;}
+  .success-box button{
+    margin-top:16px;background:var(--forest);color:var(--paper);
+    padding:11px 22px;border-radius:99px;font-size:0.88rem;font-weight:600;
+  }
+
+  /* ---------- FOOTER ---------- */
+  .site-footer{
+    margin-top:18px;
+    background:var(--forest-dark);
+    color:rgba(246,250,242,0.85);
+    padding:32px 20px 18px;
+  }
+  .footer-top{
+    display:flex;flex-wrap:wrap;gap:28px;
+    max-width:900px;margin:0 auto 20px;
+  }
+  .footer-brand{flex:1 1 220px;}
+  .footer-brand p{font-size:0.85rem;line-height:1.6;color:rgba(246,250,242,0.65);margin-top:8px;}
+  .footer-col{flex:1 1 140px;}
+  .footer-col h4{
+    font-size:0.85rem;color:var(--sprout);margin:0 0 10px;
+    text-transform:uppercase;letter-spacing:0.06em;
+  }
+  .footer-col p{font-size:0.83rem;margin:4px 0;color:rgba(246,250,242,0.75);}
+  .footer-bottom{
+    text-align:center;padding-top:16px;
+    border-top:1px solid rgba(246,250,242,0.12);
+    font-size:0.75rem;color:rgba(246,250,242,0.5);
+    display:flex;flex-direction:column;gap:4px;
+  }
+  .footer-bottom .credit{
+    color:rgba(246,250,242,0.35);
+    font-size:0.7rem;
+  }
+
+  /* ---------- SCROLL PROGRESS BAR ---------- */
+  .scroll-progress{
+    position:fixed;top:0;left:0;
+    height:3px;width:0%;
+    background:linear-gradient(90deg, var(--sprout), var(--gold));
+    z-index:100;
+    transition:width 0.1s ease-out;
+    box-shadow:0 0 8px rgba(110,159,76,0.6);
+  }
+
+  /* ---------- MARQUEE SLIDERS ---------- */
+  .marquee-wrap{
+    overflow:hidden;
+    white-space:nowrap;
+    position:relative;
+    -webkit-mask-image:linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    mask-image:linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  }
+  .marquee-track{
+    display:inline-flex;
+    align-items:center;
+    width:max-content;
+    animation:marqueeScroll 22s linear infinite;
+  }
+  .marquee-track.reverse{
+    animation:marqueeScrollReverse 26s linear infinite;
+  }
+  @keyframes marqueeScroll{
+    from{transform:translateX(0);}
+    to{transform:translateX(-50%);}
+  }
+  @keyframes marqueeScrollReverse{
+    from{transform:translateX(-50%);}
+    to{transform:translateX(0);}
+  }
+  .promo-marquee{
+    background:var(--forest);
+    padding:9px 0;
+  }
+  .promo-marquee .marquee-track span{
+    color:var(--paper);
+    font-size:0.82rem;
+    font-weight:600;
+    padding:0 22px;
+    position:relative;
+  }
+  .promo-marquee .marquee-track span::after{
+    content:'•';
+    position:absolute;right:-2px;color:var(--sprout);
+  }
+  .payment-marquee{
+    background:var(--sand);
+    padding:10px 0;
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .payment-marquee .marquee-track span{
+    display:inline-flex;align-items:center;gap:7px;
+    color:var(--forest-dark);
+    font-size:0.85rem;
+    font-weight:600;
+    padding:0 20px;
+    border-right:1px solid var(--line);
+  }
+  .payment-marquee .pay-icon{font-size:1.1rem;}
+
+  @media(prefers-reduced-motion: reduce){
+    .marquee-track, .marquee-track.reverse{ animation:none; }
+  }
+
+  .toast{
+    position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(100px);
+    background:var(--forest-dark);color:var(--paper);
+    padding:10px 18px;border-radius:99px;font-size:0.85rem;
+    z-index:90;transition:transform 0.25s ease;
+  }
+  .toast.show{transform:translateX(-50%) translateY(0);}
+
+  /* ---------- WHATSAPP FLOATING BUTTON ---------- */
+  .whatsapp-fab{
+    position:fixed;
+    right:18px;bottom:22px;
+    width:58px;height:58px;
+    background:#25D366;
+    color:#fff;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 6px 18px rgba(37,211,102,0.45), 0 2px 6px rgba(14,32,22,0.25);
+    z-index:55;
+    animation:fabPulse 2.6s ease-in-out infinite;
+  }
+  .whatsapp-fab:active{transform:scale(0.94);}
+  @keyframes fabPulse{
+    0%,100%{box-shadow:0 6px 18px rgba(37,211,102,0.45), 0 0 0 0 rgba(37,211,102,0.35);}
+    50%{box-shadow:0 6px 18px rgba(37,211,102,0.45), 0 0 0 10px rgba(37,211,102,0);}
+  }
+  @media(min-width:640px){
+    .whatsapp-fab{right:28px;bottom:28px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<header>
+  <div class="logo"><span class="seed-dot"></span>মাঠ ফসল</div>
+  <div class="header-actions">
+    <button class="buy-now-top" id="buyNowTop">Buy Now</button>
+    <button class="icon-btn" id="favToggleTop">♥<span class="badge" id="favCount" style="display:none;">0</span></button>
+    <button class="icon-btn" id="cartToggleTop">🛒<span class="badge" id="cartCount" style="display:none;">0</span></button>
+  </div>
+</header>
+
+<div class="marquee-wrap promo-marquee">
+  <div class="marquee-track">
+    <span>🌱 ১০০% অর্গানিক ও দেশি বীজ</span>
+    <span>🚚 সারাদেশে হোম ডেলিভারি</span>
+    <span>💯 অংকুরোদগম নিশ্চয়তা</span>
+    <span>🎁 ৫০০৳+ অর্ডারে ফ্রি ডেলিভারি</span>
+    <span>🌾 কৃষক-বান্ধব দাম</span>
+    <span>🌱 ১০০% অর্গানিক ও দেশি বীজ</span>
+    <span>🚚 সারাদেশে হোম ডেলিভারি</span>
+    <span>💯 অংকুরোদগম নিশ্চয়তা</span>
+    <span>🎁 ৫০০৳+ অর্ডারে ফ্রি ডেলিভারি</span>
+    <span>🌾 কৃষক-বান্ধব দাম</span>
+  </div>
+</div>
+
+<div class="hero">
+  <span class="eyebrow">খাঁটি ও অংকুরোদগম-নিশ্চিত বীজ</span>
+  <h1>প্রতিটি প্যাকেটে<br>একটি নতুন ফসলের শুরু</h1>
+  <p>দেশি সবজি ও শাকের বীজ, সরাসরি আপনার ছাদ-বাগান বা জমিতে। অর্ডার করুন, বাড়িতে পৌঁছে যাবে।</p>
+</div>
+
+<div class="marquee-wrap payment-marquee">
+  <div class="marquee-track reverse">
+    <span><span class="pay-icon">📱</span> bKash</span>
+    <span><span class="pay-icon">📲</span> Nagad</span>
+    <span><span class="pay-icon">🏦</span> ব্যাংক ট্রান্সফার</span>
+    <span><span class="pay-icon">💵</span> ক্যাশ অন ডেলিভারি</span>
+    <span><span class="pay-icon">📱</span> bKash</span>
+    <span><span class="pay-icon">📲</span> Nagad</span>
+    <span><span class="pay-icon">🏦</span> ব্যাংক ট্রান্সফার</span>
+    <span><span class="pay-icon">💵</span> ক্যাশ অন ডেলিভারি</span>
+  </div>
+</div>
+
+<div class="section-title">সব প্রোডাক্ট <span class="count mono" id="productCountLabel"></span></div>
+<div class="grid" id="productGrid"></div>
+
+<footer class="site-footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="logo" style="color:var(--paper);"><span class="seed-dot"></span>মাঠ ফসল</div>
+      <p>খাঁটি ও অংকুরোদগম-নিশ্চিত বীজ, সরাসরি আপনার বাড়িতে। প্রতিটি প্যাকেট মানে একটি নতুন ফসলের শুরু।</p>
+    </div>
+    <div class="footer-col">
+      <h4>যোগাযোগ</h4>
+      <p>📞 01XXXXXXXXX</p>
+      <p>✉️ hello@mathforshol.com</p>
+      <p>📍 ঢাকা, বাংলাদেশ</p>
+    </div>
+    <div class="footer-col">
+      <h4>তথ্য</h4>
+      <p>ক্যাশ অন ডেলিভারি</p>
+      <p>সারাদেশে ডেলিভারি</p>
+      <p>১০০% অংকুরোদগম নিশ্চয়তা</p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 মাঠ ফসল। সর্বস্বত্ব সংরক্ষিত।</span>
+    <span class="credit">Design by Sheikh Saadi</span>
+  </div>
+</footer>
+
+<!-- Product Detail Sheet -->
+<div class="overlay" id="detailOverlay">
+  <div class="sheet" style="position:relative;">
+    <button class="close-sheet" id="closeDetail">✕</button>
+    <div class="sheet-handle"></div>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
+<!-- Cart Drawer -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-head">
+    <h3>আপনার কার্ট</h3>
+    <button class="icon-btn" id="closeCart">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer" id="cartFooter" style="display:none;">
+    <div class="cart-total-row"><span>মোট</span><span class="mono" id="cartTotal">৳0</span></div>
+    <button class="checkout-btn" id="goCheckout">চেকআউট করুন</button>
+  </div>
+</div>
+
+<!-- Favorites Drawer -->
+<div class="cart-overlay" id="favOverlay"></div>
+<div class="cart-drawer" id="favDrawer">
+  <div class="cart-head">
+    <h3>♥ ফেভারিট প্রোডাক্ট</h3>
+    <button class="icon-btn" id="closeFav">✕</button>
+  </div>
+  <div class="cart-items" id="favItems"></div>
+</div>
+
+<!-- Checkout Sheet -->
+<div class="overlay" id="checkoutOverlay">
+  <div class="sheet" style="position:relative;">
+    <button class="close-sheet" id="closeCheckout">✕</button>
+    <div class="sheet-handle"></div>
+    <div id="checkoutContent"></div>
+  </div>
+</div>
+
+<a href="https://wa.me/8801775999639?text=আসসালামু%20আলাইকুম,%20আমি%20মাঠ%20ফসল%20থেকে%20অর্ডার%20নিয়ে%20জানতে%20চাচ্ছিলাম।"
+   target="_blank" rel="noopener" class="whatsapp-fab" aria-label="WhatsApp সাপোর্ট">
+  <svg viewBox="0 0 32 32" width="28" height="28" fill="currentColor">
+    <path d="M16.004 3C9.373 3 4 8.373 4 15.004c0 2.53.741 4.884 2.017 6.868L4 29l7.31-1.917a11.94 11.94 0 0 0 4.694.96h.005c6.63 0 12.003-5.373 12.003-12.003C28.012 8.373 22.639 3 16.004 3zm0 21.86a9.83 9.83 0 0 1-5.01-1.37l-.36-.213-4.34 1.138 1.16-4.232-.235-.434a9.83 9.83 0 0 1-1.508-5.244c0-5.44 4.428-9.868 9.868-9.868 5.44 0 9.868 4.428 9.868 9.868s-4.428 9.855-9.443 9.855zm5.404-7.39c-.297-.148-1.755-.867-2.027-.966-.272-.099-.47-.148-.668.148-.198.297-.767.966-.94 1.164-.173.198-.347.223-.644.075-.297-.148-1.254-.462-2.39-1.474-.883-.788-1.48-1.76-1.653-2.058-.173-.297-.018-.457.13-.605.134-.133.297-.347.446-.52.148-.173.198-.297.297-.495.099-.198.05-.372-.025-.52-.074-.148-.668-1.61-.916-2.205-.242-.58-.487-.502-.668-.512l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.478s1.065 2.876 1.213 3.074c.148.198 2.096 3.2 5.078 4.49.71.306 1.263.489 1.695.626.712.227 1.36.195 1.873.118.571-.085 1.755-.717 2.003-1.41.248-.694.248-1.288.173-1.41-.074-.124-.272-.198-.57-.347z"/>
+  </svg>
+</a>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+// ⚠️ IMPORTANT: Google Apps Script Web App URL বসান এখানে
+// (নিচে "GOOGLE SHEETS SETUP" নোট দেখুন)
+// ============================================================
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwyicomBuTsF757QwQwL-GjH-tGv-tlDaIXn6RJpytpbBwucBIfgflhVsUJyWfPw-nexg/exec";
+
+// একটা র‍্যান্ডম, অনুমান-কঠিন স্ট্রিং বসান (Apps Script কোডেও একই স্ট্রিং বসাতে হবে)।
+// এটা লুকানো থাকবে না (View Source-এ দেখা যাবে) — তবে র‍্যান্ডম বট/স্ক্রিপ্ট আটকাতে যথেষ্ট।
+const SECRET_TOKEN = "mathfoshol-2026-x7q9";
+
+// ---------- PRODUCT DATA (এখানে নিজের প্রোডাক্ট বসান/এডিট করুন) ----------
+const PRODUCTS = [
+  {id:1, name:"টমেটো বীজ", price:60, emoji:"🍅", desc:"উচ্চ ফলনশীল হাইব্রিড টমেটো বীজ। অংকুরোদগম হার ৯০%+। প্যাকেটে ৫০টি বীজ।"},
+  {id:2, name:"লাউ বীজ", price:45, emoji:"🥒", desc:"দেশি লাউয়ের বীজ, মাচা বা ছাদ-বাগানের জন্য উপযোগী। প্যাকেটে ২০টি বীজ।"},
+  {id:3, name:"বেগুন বীজ", price:50, emoji:"🍆", desc:"রোগ প্রতিরোধী বেগুন বীজ, দ্রুত ফলনে আসে। প্যাকেটে ৪০টি বীজ।"},
+  {id:4, name:"মরিচ বীজ", price:40, emoji:"🌶️", desc:"ঝাল দেশি মরিচের বীজ, টবেও চাষযোগ্য। প্যাকেটে ৩০টি বীজ।"},
+  {id:5, name:"শসা বীজ", price:55, emoji:"🥗", desc:"রসালো শসার বীজ, গ্রীষ্মকালীন চাষের জন্য উপযুক্ত। প্যাকেটে ২৫টি বীজ।"},
+  {id:6, name:"লালশাক বীজ", price:30, emoji:"🥬", desc:"পুষ্টিগুণে ভরপুর লালশাক, ৩ সপ্তাহেই তোলা যায়। প্যাকেটে ১০০+ বীজ।"},
+  {id:7, name:"ধনেপাতা বীজ", price:35, emoji:"🌿", desc:"সুগন্ধি ধনেপাতার বীজ, রান্নাঘরের বাগানের জন্য সেরা। প্যাকেটে ৫০ গ্রাম।"},
+  {id:8, name:"গাজর বীজ", price:65, emoji:"🥕", desc:"মিষ্টি ও ক্রাঞ্চি গাজরের বীজ, শীতকালীন সবজি। প্যাকেটে ৩০টি বীজ।"},
+];
+
+// ---------- STATE (সেশনে থাকে, রিলোডে রিসেট হবে) ----------
+let cart = {};      // {productId: qty}
+let favorites = new Set();
+let activeProductId = null;
+
+// ---------- RENDER PRODUCT GRID ----------
+const grid = document.getElementById('productGrid');
+document.getElementById('productCountLabel').textContent = `(${PRODUCTS.length})`;
+
+function renderGrid(){
+  grid.innerHTML = PRODUCTS.map(p => `
+    <div class="packet">
+      <div class="packet-media" data-open="${p.id}">
+        ${p.emoji}
+        <button class="fav-btn ${favorites.has(p.id)?'active':''}" data-fav="${p.id}">♥</button>
+      </div>
+      <div class="packet-body" data-open="${p.id}">
+        <h3>${p.name}</h3>
+        <div class="price">৳${p.price}</div>
+      </div>
+      <div class="packet-footer">
+        <button class="add-btn ${cart[p.id]?'added':''}" data-add="${p.id}">
+          ${cart[p.id] ? `কার্টে যুক্ত (${cart[p.id]})` : 'কার্টে যোগ করুন'}
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+renderGrid();
+
+grid.addEventListener('click', (e)=>{
+  const openId = e.target.closest('[data-open]');
+  const favId = e.target.closest('[data-fav]');
+  const addId = e.target.closest('[data-add]');
+  if(favId){ toggleFav(Number(favId.dataset.fav)); return; }
+  if(addId){ addToCart(Number(addId.dataset.add)); renderGrid(); showToast('কার্টে যোগ হয়েছে'); return; }
+  if(openId){ openDetail(Number(openId.dataset.open)); }
+});
+
+// ---------- FAVORITES ----------
+function toggleFav(id){
+  if(favorites.has(id)) favorites.delete(id); else favorites.add(id);
+  updateFavBadge();
+  renderGrid();
+}
+function updateFavBadge(){
+  const el = document.getElementById('favCount');
+  if(favorites.size>0){ el.style.display='flex'; el.textContent = favorites.size; }
+  else{ el.style.display='none'; }
+}
+
+// ---------- CART ----------
+function addToCart(id, qty=1){
+  cart[id] = (cart[id]||0) + qty;
+  updateCartBadge();
+}
+function setQty(id, qty){
+  if(qty<=0){ delete cart[id]; } else { cart[id]=qty; }
+  updateCartBadge();
+}
+function updateCartBadge(){
+  const total = Object.values(cart).reduce((a,b)=>a+b,0);
+  const el = document.getElementById('cartCount');
+  if(total>0){ el.style.display='flex'; el.textContent = total; }
+  else{ el.style.display='none'; }
+}
+function cartTotalPrice(){
+  return Object.entries(cart).reduce((sum,[id,qty])=>{
+    const p = PRODUCTS.find(x=>x.id===Number(id));
+    return sum + (p ? p.price*qty : 0);
+  },0);
+}
+
+// ---------- PRODUCT DETAIL SHEET ----------
+const detailOverlay = document.getElementById('detailOverlay');
+const detailContent = document.getElementById('detailContent');
+
+function openDetail(id){
+  activeProductId = id;
+  const p = PRODUCTS.find(x=>x.id===id);
+  const qty = cart[id] || 1;
+  detailContent.innerHTML = `
+    <div class="detail-media">${p.emoji}</div>
+    <div class="detail-body">
+      <h2>${p.name}</h2>
+      <div class="price mono">৳${p.price}</div>
+      <div class="desc">${p.desc}</div>
+      <div class="qty-row">
+        <span class="label">পরিমাণ</span>
+        <div class="qty-control">
+          <button id="qtyMinus">−</button>
+          <span id="qtyVal">${qty}</span>
+          <button id="qtyPlus">+</button>
+        </div>
+      </div>
+      <div class="detail-actions">
+        <button class="fav-inline ${favorites.has(id)?'active':''}" id="detailFav">♥</button>
+        <button class="add-btn" id="detailAdd">কার্টে যোগ করুন</button>
+      </div>
+    </div>
+  `;
+  let localQty = qty;
+  document.getElementById('qtyMinus').onclick = ()=>{ if(localQty>1){localQty--; document.getElementById('qtyVal').textContent=localQty;} };
+  document.getElementById('qtyPlus').onclick = ()=>{ localQty++; document.getElementById('qtyVal').textContent=localQty; };
+  document.getElementById('detailFav').onclick = ()=>{ toggleFav(id); openDetail(id); };
+  document.getElementById('detailAdd').onclick = ()=>{
+    cart[id] = localQty;
+    updateCartBadge();
+    renderGrid();
+    showToast('কার্টে যোগ হয়েছে');
+    closeDetailSheet();
+  };
+  detailOverlay.classList.add('open');
+}
+function closeDetailSheet(){ detailOverlay.classList.remove('open'); }
+document.getElementById('closeDetail').onclick = closeDetailSheet;
+detailOverlay.addEventListener('click', (e)=>{ if(e.target===detailOverlay) closeDetailSheet(); });
+
+// ---------- CART DRAWER ----------
+const cartDrawer = document.getElementById('cartDrawer');
+const cartOverlay = document.getElementById('cartOverlay');
+const cartItemsEl = document.getElementById('cartItems');
+const cartFooter = document.getElementById('cartFooter');
+
+function openCart(){
+  renderCartDrawer();
+  cartDrawer.classList.add('open');
+  cartOverlay.classList.add('open');
+}
+function closeCartDrawer(){
+  cartDrawer.classList.remove('open');
+  cartOverlay.classList.remove('open');
+}
+document.getElementById('cartToggleTop').onclick = openCart;
+document.getElementById('buyNowTop').onclick = openCart; // top "Buy Now" opens cart directly
+document.getElementById('closeCart').onclick = closeCartDrawer;
+cartOverlay.onclick = closeCartDrawer;
+
+function renderCartDrawer(){
+  const entries = Object.entries(cart);
+  if(entries.length===0){
+    cartItemsEl.innerHTML = `<div class="cart-empty">আপনার কার্ট খালি।<br>প্রোডাক্টে ট্যাপ করে কার্টে যোগ করুন।</div>`;
+    cartFooter.style.display='none';
+    return;
+  }
+  cartFooter.style.display='block';
+  cartItemsEl.innerHTML = entries.map(([id,qty])=>{
+    const p = PRODUCTS.find(x=>x.id===Number(id));
+    return `
+      <div class="cart-item">
+        <div class="thumb">${p.emoji}</div>
+        <div class="info">
+          <h4>${p.name}</h4>
+          <div class="mono">৳${p.price} × ${qty} = ৳${p.price*qty}</div>
+          <div class="qty-control" style="margin-top:6px;">
+            <button data-dec="${id}">−</button>
+            <span>${qty}</span>
+            <button data-inc="${id}">+</button>
+          </div>
+        </div>
+        <button class="remove" data-remove="${id}">সরান</button>
+      </div>
+    `;
+  }).join('');
+  document.getElementById('cartTotal').textContent = `৳${cartTotalPrice()}`;
+}
+cartItemsEl.addEventListener('click',(e)=>{
+  const dec = e.target.closest('[data-dec]');
+  const inc = e.target.closest('[data-inc]');
+  const rem = e.target.closest('[data-remove]');
+  if(dec){ const id=Number(dec.dataset.dec); setQty(id,(cart[id]||0)-1); renderCartDrawer(); renderGrid(); }
+  if(inc){ const id=Number(inc.dataset.inc); setQty(id,(cart[id]||0)+1); renderCartDrawer(); renderGrid(); }
+  if(rem){ const id=Number(rem.dataset.remove); setQty(id,0); renderCartDrawer(); renderGrid(); }
+});
+
+// ---------- CHECKOUT ----------
+const checkoutOverlay = document.getElementById('checkoutOverlay');
+const checkoutContent = document.getElementById('checkoutContent');
+
+document.getElementById('goCheckout').onclick = ()=>{
+  if(Object.keys(cart).length===0) return;
+  closeCartDrawer();
+  renderCheckoutForm();
+  checkoutOverlay.classList.add('open');
+};
+document.getElementById('closeCheckout').onclick = ()=>checkoutOverlay.classList.remove('open');
+checkoutOverlay.onclick = (e)=>{ if(e.target===checkoutOverlay) checkoutOverlay.classList.remove('open'); };
+
+function renderCheckoutForm(){
+  const entries = Object.entries(cart);
+  const summaryRows = entries.map(([id,qty])=>{
+    const p = PRODUCTS.find(x=>x.id===Number(id));
+    return `<div class="row"><span>${p.name} × ${qty}</span><span class="mono">৳${p.price*qty}</span></div>`;
+  }).join('');
+  checkoutContent.innerHTML = `
+    <div class="checkout-form">
+      <h2>অর্ডার সম্পন্ন করুন</h2>
+      <div class="order-summary">
+        ${summaryRows}
+        <div class="row" style="font-weight:700;border-top:1px solid var(--line);margin-top:6px;padding-top:8px;">
+          <span>সর্বমোট</span><span class="mono">৳${cartTotalPrice()}</span>
+        </div>
+      </div>
+      <div class="field"><label>নাম *</label><input type="text" id="custName" placeholder="আপনার পুরো নাম"></div>
+      <div class="field"><label>মোবাইল নাম্বার *</label><input type="tel" id="custPhone" placeholder="01XXXXXXXXX" maxlength="11"></div>
+      <div class="field"><label>ঠিকানা *</label><textarea id="custAddress" placeholder="বাসা/গ্রাম, থানা, জেলা"></textarea></div>
+      <div class="field"><label>বিশেষ নির্দেশনা (ঐচ্ছিক)</label><input type="text" id="custNote" placeholder="যেমনঃ সন্ধ্যায় ডেলিভারি দিন"></div>
+      <!-- honeypot: মানুষ এটা দেখবে না ও ফিল করবে না, বট করলে অর্ডার রিজেক্ট হবে -->
+      <div style="position:absolute;left:-9999px;opacity:0;height:0;overflow:hidden;" aria-hidden="true">
+        <label>Website</label>
+        <input type="text" id="custWebsite" tabindex="-1" autocomplete="off">
+      </div>
+      <button class="submit-order" id="submitOrder">অর্ডার কনফার্ম করুন</button>
+      <div class="form-note">ক্যাশ অন ডেলিভারি — পণ্য হাতে পেয়ে টাকা দিন</div>
+    </div>
+  `;
+  document.getElementById('submitOrder').onclick = submitOrder;
+}
+
+let lastSubmitTime = 0;
+
+async function submitOrder(){
+  const name = document.getElementById('custName').value.trim();
+  const phone = document.getElementById('custPhone').value.trim();
+  const address = document.getElementById('custAddress').value.trim();
+  const note = document.getElementById('custNote').value.trim();
+  const honeypot = document.getElementById('custWebsite').value.trim();
+
+  // বট ফিল্টার: honeypot ফিল্ড ফাঁকা থাকা উচিত, মানুষ এটা দেখতেই পাবে না
+  if(honeypot){
+    console.warn('Honeypot ফিল্ড ফিল করা হয়েছে — সম্ভবত বট, অর্ডার বাতিল।');
+    showSuccess(); // বটকে বোঝার সুযোগ না দিয়ে স্বাভাবিক success দেখানো হচ্ছে
+    cart = {};
+    updateCartBadge();
+    renderGrid();
+    return;
+  }
+
+  if(!name || !phone || !address){
+    showToast('নাম, মোবাইল ও ঠিকানা দিন');
+    return;
+  }
+  const phoneDigitsOnly = phone.replace(/\D/g,'');
+  if(!/^01[0-9]{9}$/.test(phoneDigitsOnly)){
+    showToast('সঠিক ১১ ডিজিটের মোবাইল নাম্বার দিন (01XXXXXXXXX)');
+    return;
+  }
+  // ডাবল-ক্লিক/বারবার সাবমিট ঠেকাতে ৮ সেকেন্ডের কুলডাউন
+  const now = Date.now();
+  if(now - lastSubmitTime < 8000){
+    showToast('একটু আগেই অর্ডার পাঠানো হয়েছে, অনুগ্রহ করে অপেক্ষা করুন');
+    return;
+  }
+  lastSubmitTime = now;
+
+  const btn = document.getElementById('submitOrder');
+  btn.disabled = true;
+  btn.textContent = 'পাঠানো হচ্ছে...';
+
+  const entries = Object.entries(cart);
+  const productsText = entries.map(([id,qty])=>{
+    const p = PRODUCTS.find(x=>x.id===Number(id));
+    return `${p.name} x${qty} (৳${p.price*qty})`;
+  }).join(', ');
+
+  const orderData = {
+    token: SECRET_TOKEN,
+    timestamp: new Date().toISOString(),
+    name, phone: phoneDigitsOnly, address, note,
+    products: productsText,
+    total: cartTotalPrice()
+  };
+
+  try{
+    if(GOOGLE_SCRIPT_URL && GOOGLE_SCRIPT_URL.startsWith('http')){
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method:'POST',
+        mode:'no-cors', // Apps Script requires no-cors from browser fetch
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(orderData)
+      });
+    } else {
+      console.warn('GOOGLE_SCRIPT_URL সেট করা হয়নি — অর্ডার শুধু কনসোলে দেখাচ্ছে:', orderData);
+    }
+    showSuccess();
+    cart = {};
+    updateCartBadge();
+    renderGrid();
+  }catch(err){
+    console.error(err);
+    showToast('সমস্যা হয়েছে, আবার চেষ্টা করুন');
+    btn.disabled = false;
+    btn.textContent = 'অর্ডার কনফার্ম করুন';
+  }
+}
+
+function showSuccess(){
+  checkoutContent.innerHTML = `
+    <div class="success-box">
+      <div class="icon">✅</div>
+      <h3>অর্ডার সম্পন্ন হয়েছে!</h3>
+      <p>আপনার অর্ডারটি আমরা পেয়েছি। শীঘ্রই আমাদের প্রতিনিধি ফোনে যোগাযোগ করবেন।</p>
+      <button id="closeSuccess">ঠিক আছে</button>
+    </div>
+  `;
+  document.getElementById('closeSuccess').onclick = ()=>checkoutOverlay.classList.remove('open');
+}
+
+// ---------- SCROLL PROGRESS BAR ----------
+const scrollProgressEl = document.getElementById('scrollProgress');
+function updateScrollProgress(){
+  const scrollTop = window.scrollY || document.documentElement.scrollTop;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  scrollProgressEl.style.width = pct + '%';
+}
+window.addEventListener('scroll', updateScrollProgress, {passive:true});
+window.addEventListener('resize', updateScrollProgress);
+updateScrollProgress();
+
+// ---------- FAVORITES DRAWER ----------
+const favDrawer = document.getElementById('favDrawer');
+const favOverlay = document.getElementById('favOverlay');
+const favItemsEl = document.getElementById('favItems');
+
+function openFavDrawer(){
+  renderFavDrawer();
+  favDrawer.classList.add('open');
+  favOverlay.classList.add('open');
+}
+function closeFavDrawer(){
+  favDrawer.classList.remove('open');
+  favOverlay.classList.remove('open');
+}
+document.getElementById('favToggleTop').onclick = openFavDrawer;
+document.getElementById('closeFav').onclick = closeFavDrawer;
+favOverlay.onclick = closeFavDrawer;
+
+function renderFavDrawer(){
+  const favProducts = PRODUCTS.filter(p=>favorites.has(p.id));
+  if(favProducts.length===0){
+    favItemsEl.innerHTML = `<div class="cart-empty">এখনো কোনো ফেভারিট নেই।<br>প্রোডাক্টে ♥ চেপে ফেভারিটে যোগ করুন।</div>`;
+    return;
+  }
+  favItemsEl.innerHTML = favProducts.map(p=>`
+    <div class="cart-item">
+      <div class="thumb">${p.emoji}</div>
+      <div class="info">
+        <h4>${p.name}</h4>
+        <div class="mono">৳${p.price}</div>
+      </div>
+      <div class="fav-item-actions">
+        <button class="fav-add-btn ${cart[p.id]?'added':''}" data-favadd="${p.id}">
+          ${cart[p.id] ? `যুক্ত (${cart[p.id]})` : 'কার্টে যোগ করুন'}
+        </button>
+        <button class="fav-remove" data-favremove="${p.id}">সরান</button>
+      </div>
+    </div>
+  `).join('');
+}
+favItemsEl.addEventListener('click',(e)=>{
+  const addBtn = e.target.closest('[data-favadd]');
+  const removeBtn = e.target.closest('[data-favremove]');
+  if(addBtn){
+    const id = Number(addBtn.dataset.favadd);
+    addToCart(id);
+    renderFavDrawer();
+    renderGrid();
+    showToast('কার্টে যোগ হয়েছে');
+  }
+  if(removeBtn){
+    const id = Number(removeBtn.dataset.favremove);
+    favorites.delete(id);
+    updateFavBadge();
+    renderFavDrawer();
+    renderGrid();
+  }
+});
+
+// ---------- TOAST ----------
+let toastTimer;
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 1800);
+}
+</script>
+</body>
+</html>
